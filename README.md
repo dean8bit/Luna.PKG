@@ -8,7 +8,7 @@ Packs an asset folder into a single file and maintains a file table appended on 
 ### Example usage:
 
 
-      PackageWriter.MakePkg("assets.pkg", "assets"); -- Writes contents of assets folder into package.pkg
+      PackageWriter.MakePkg("assets.pkg", "assets"); -- Writes contents of assets folder into assets.pkg
   
       var reader = PackageReader("assets.pkg"); -- Reads a package file
   
@@ -35,7 +35,7 @@ Packs an asset folder into a single file and maintains a file table appended on 
 
 [...] Asset Table
   
-  - length prefixed string (invidiual asset path)
+  - length prefixed string (individual asset path)
     
   - 8 bytes (Int64, index to the start of the asset data in the file data table)
     
