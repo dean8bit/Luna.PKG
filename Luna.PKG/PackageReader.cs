@@ -27,7 +27,7 @@ public class PackageReader
 
   public byte[] GetAsset(string path)
   {
-    var asset = Assets.FirstOrDefault(a => a.Path == path) ?? throw new Exception($"Asset {path} not found in package {_path}");
+    var asset = Assets.FirstOrDefault(a => a.Path.Equals(path, StringComparison.OrdinalIgnoreCase)) ?? throw new Exception($"Asset {path} not found in package {_path}");
     _reader.BaseStream.Seek(asset.Start, SeekOrigin.Begin);
     return _reader.ReadBytes(asset.Size);
   }
