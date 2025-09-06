@@ -9,11 +9,11 @@ public class PackageWriter
     public static void MakePkg(string outputPath, string assetPath)
     {
 
-        var pkg = new PackageWriter();
-        var files = Directory.GetFiles(assetPath, "*.*", SearchOption.AllDirectories);
-        foreach (var file in files)
+        PackageWriter pkg = new();
+        string[] files = Directory.GetFiles(assetPath, "*.*", SearchOption.AllDirectories);
+        foreach (string file in files)
         {
-            var path = file.Replace("\\", "/").Replace("//", "/");
+            string path = file.Replace("\\", "/").Replace("//", "/");
             Console.WriteLine($"Adding {path}");
             pkg.AddAsset(path);
         }
@@ -24,33 +24,37 @@ public class PackageWriter
     {
         using BinaryWriter writer = new(File.Open(path, FileMode.Create));
         writer.Write(Encoding.ASCII.GetBytes("PKG"));
-        writer.Write((Int64)0); //index to file table
-        writer.Write((Int64)0); //size of file table
+        writer.Write((long)0); //index to file table
+        writer.Write((long)0); //size of file table
 
-        foreach (var asset in Assets)
+        foreach (PackedAsset asset in Assets)
         {
-            var data = LoadData(asset);
+            byte[] data = LoadData(asset);
             asset.Size = data.Length;
             asset.Start = writer.BaseStream.Position;
             writer.Write(data);
         }
 
-        var index = (int)writer.BaseStream.Position;
-        foreach (var asset in Assets)
+        int index = (int)writer.BaseStream.Position;
+        foreach (PackedAsset asset in Assets)
         {
             writer.Write(asset.Path);
-            writer.Write((Int64)asset.Start);
-            writer.Write((Int32)asset.Size);
+            writer.Write(asset.Start);
+            writer.Write(asset.Size);
         }
 
-        writer.BaseStream.Seek(3, SeekOrigin.Begin);
-        writer.Write((Int64)index);
-        writer.Write((Int64)Assets.Count);
+        _ = writer.BaseStream.Seek(3, SeekOrigin.Begin);
+        writer.Write((long)index);
+        writer.Write((long)Assets.Count);
     }
 
     public void AddAsset(string path)
     {
-        if (Assets.Any(a => a.Path == path)) return;
+        if (Assets.Any(a => a.Path == path))
+        {
+            return;
+        }
+
         Assets.Add(new PackedAsset(path, 0, 0));
     }
 

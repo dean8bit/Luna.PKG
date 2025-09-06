@@ -1,8 +1,8 @@
 namespace Luna.PKG;
 
-public class PackedAsset(string path, Int64 start, Int32 size)
+public class PackedAsset(string path, long start, int size)
 {
     public string Path { get; set; } = path;
-    public Int64 Start { get; set; } = start;
-    public Int32 Size { get; set; } = size;
+    public long Start { get; set; } = start;
+    public int Size { get; set; } = size;
 }
