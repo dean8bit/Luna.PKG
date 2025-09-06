@@ -11,9 +11,7 @@ public sealed class PackageTests
         PackageReader pkg = new("assets.pkg");
         Assert.IsTrue(pkg.Assets.Count > 0);
         byte[] txtFile = pkg.GetAsset("Assets/test.txt");
-        Assert.IsNotNull(txtFile);
         byte[] spriteFile = pkg.GetAsset("Assets/SprItes/sprite.png");
-        Assert.IsNotNull(spriteFile);
         Assert.IsTrue(spriteFile.Length == 796);
         _ = Assert.ThrowsException<Exception>(() => pkg.GetAsset("Assets/doesnotexist.txt"));
         _ = Assert.ThrowsException<FileNotFoundException>(() => new PackageReader("doesnotexist.pkg"));

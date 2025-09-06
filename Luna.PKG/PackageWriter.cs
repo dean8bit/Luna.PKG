@@ -58,7 +58,7 @@ public class PackageWriter
         Assets.Add(new PackedAsset(path, 0, 0));
     }
 
-    public byte[] LoadData(PackedAsset asset)
+    public static byte[] LoadData(PackedAsset asset)
     {
         using BinaryReader reader = new(File.Open(asset.Path, FileMode.Open));
         return reader.ReadBytes((int)reader.BaseStream.Length);
