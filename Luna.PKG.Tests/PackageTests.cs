@@ -1,6 +1,4 @@
-﻿using Luna.PKG;
-
-namespace Luna.PKG.Tests;
+﻿namespace Luna.PKG.Tests;
 
 [TestClass]
 public sealed class PackageTests
